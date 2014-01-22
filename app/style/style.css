@@ -1,0 +1,84 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica";
+  color: #444;
+}
+
+a{
+  color: #444;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2em;
+  padding: 25px 0 25px 105px;
+  border-bottom: 1px solid #eee;
+}
+
+.assigneePlaceholder {
+  width: 70px;
+  height: 70px;
+  background-color: #e5e5e5;
+  border-radius: 50%;
+  float:left;
+  margin-right: 10px;
+}
+
+.assigneePlaceholder img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.issues > li{
+  clear: both;
+  overflow: hidden;
+  padding: 10px 0 10px 10px;
+  position: relative;
+  border-bottom: 1px solid #eee;
+}
+
+.labels {
+  margin-top: 4px;
+}
+
+.labels li {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: .75em;
+  color: white;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.issues > li.open{
+  border-left: 10px solid orange;
+}
+
+.issues > li.closed{
+  border-left: 10px solid green;
+}
+
+.title {
+  font-size: 1.25em;
+  line-height: 1.5em;
+}
+
+.repoName {
+  text-transform: uppercase;
+  font-size: .9em;
+  line-height: 1em;
+}
+
+.comments {
+  background: #555;
+  color: white;
+  padding: 3px 8px;
+  font-size: .7em;
+  color: white;
+  border-radius: 6px;
+  text-transform: uppercase;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "icanhaz",
+  "version": "0.10.3",
+  "main": "ICanHaz.js",
+  "homepage": "https://github.com/HenrikJoreteg/ICanHaz.js",
+  "_release": "0.10.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.10.3",
+    "commit": "9d086dd4be609cddb36cbb839ed6209bd378a5e5"
+  },
+  "_source": "git://github.com/HenrikJoreteg/ICanHaz.js.git",
+  "_target": "~0.10.3",
+  "_originalSource": "icanhazjs",
+  "_direct": true
+}

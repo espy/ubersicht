@@ -1,0 +1,20 @@
+{
+  "name": "reset-css",
+  "version": "2.0.20110126",
+  "description": "An unmodified copy of Eric Meyer's CSS reset.",
+  "homepage": "http://meyerweb.com/eric/tools/css/reset/",
+  "authors": [
+    "Eric Meyer"
+  ],
+  "main": "reset.css",
+  "_release": "2.0.20110126",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.20110126",
+    "commit": "b29af767a82e479bfd6d5ccfb05c47ce5ee154b2"
+  },
+  "_source": "git://github.com/shannonmoeller/reset-css.git",
+  "_target": "~2.0.20110126",
+  "_originalSource": "reset-css",
+  "_direct": true
+}
