@@ -62,17 +62,11 @@ $(function() {
   // Events
 
   // Whatever changes in .controls: filter all the things!
-  $('.controls').change(function(event){
-    applyFilters()
-  })
+  $('.controls').change(applyFilters);
 
-  $('select').on('change', function(event){
-    applyFilters()
-  })
+  $('select').on('change', applyFilters);
 
-  $('input').on('ifChanged', function(event){
-    applyFilters()
-  });
+  $('input').on('ifChanged', applyFilters);
 
   // A helper to only show open issues with a label meant for new committers.
   // You can set this `labelForNewCommitters` yourself at the top of this file.
