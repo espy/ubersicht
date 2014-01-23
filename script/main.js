@@ -14,7 +14,7 @@ $(function() {
     milestones: []
   };
 
-  $('h1.title').append(" for github  / "+githubOrganisation);
+  $('h1.title').append(' for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
 
   // Events
 
@@ -103,7 +103,7 @@ $(function() {
       } else {
         metadata.closed++;
       }
-
+      // collect all repos and count how many issues they have
       var repo = _.findWhere(metadata.repos, {name: issue.repo_name});
       if(repo){
         repo.issues++;
@@ -113,6 +113,8 @@ $(function() {
           issues: 1
         })
       }
+
+      // collect all labels and count how many issues they have
       var labels = issue.labels;
       labels.forEach(function(label){
         var metaLabel = _.findWhere(metadata.labels, {name: label.name});
@@ -126,6 +128,19 @@ $(function() {
           })
         }
       })
+
+      // collect all milestones and count how many issues they have
+      if(issue.milestone){
+        var milestone = _.findWhere(metadata.milestones, {name: issue.milestone.title});
+        if(milestone){
+          milestone.issues++;
+        } else {
+          metadata.milestones.push({
+            name: issue.milestone.title,
+            issues: 1
+          })
+        }
+      }
     });
 
     updateControls();
@@ -136,7 +151,7 @@ $(function() {
   function applyFilters(){
     var repos = $('#repos').val();
     var labels = $('#labels').val();
-    console.log("labels: ",labels);
+    var milestones = $('#milestones').val();
     var showClosed = false;
     if($('#showClosed').is(':checked')){
       showClosed = true
@@ -176,12 +191,14 @@ $(function() {
       if(repos && repos.indexOf($this.attr('data-repo')) === -1){
         hide++;
       }
+      // Filter by milestones
+      if(milestones && milestones.indexOf($this.find('.milestone').text()) === -1){
+        hide++;
+      }
       // Filter by labels
       var thisLabels = $this.find('.labels>li').map(function() {return $(this).text()}).get();
-      console.log("thisLabels: ",thisLabels);
       var intersection = _.intersection(labels, thisLabels)
       if(labels && intersection && intersection.length != labels.length){
-        console.log("intersection: ", intersection.length != labels.length);
         hide++;
       }
       if(hide === 0){
@@ -199,6 +216,8 @@ $(function() {
     $('.controls').append(repoSelectorHTML);
     var labelSelectorHTML = ich.labelSelector({labels: metadata.labels});
     $('.controls').append(labelSelectorHTML);
+    var milestoneSelectorHTML = ich.milestoneSelector({milestones: metadata.milestones});
+    $('.controls').append(milestoneSelectorHTML);
     $("select").select2();
   }
 

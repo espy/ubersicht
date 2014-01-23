@@ -1,6 +1,6 @@
 # Ubersicht
 
-Ubersicht is a small, frontend only dashboard for all the public repos of any github organisation. It runs as a gh-page, so you can just fork this repo, change the `githubOrganisation`-variable in `main.js` and you've got your own public github dashboard.
+Ubersicht is a lightweight, frontend only dashboard for all the public repos of any github organisation. It runs as a gh-page, so you can just fork this repo, change the `githubOrganisation`-variable in `main.js` and you've got your own public github dashboard.
 
 It requires no API key and no data storage.
 
@@ -13,11 +13,11 @@ Thanks!
 ## Planned features
 
 - Filters
-    - state
-    - with/without comments
+    √ state
+    √ with/without comments
     - in milestone (pick from select2 box)
-    - in repo (pick from select2 box)
-    - label (pick from select2 box)
+    √ in repo (pick from select2 box)
+    √ label (pick from select2 box)
 - Overviews:
     - new issues in the last 24h (since last visit)
     - newly commented issues in the last 24h (since last visit)

@@ -42,7 +42,7 @@
       <br>
       <a class="repoName" href="{{repo_url}}">{{repo_name}}</a> <a class="issueNumber" href="{{html_url}}">(#{{number}}
         {{#milestone}}
-          / <a href="{{html_url}}">{{title}}</a>
+          / <a class="milestone" href="{{html_url}}">{{title}}</a>
         {{/milestone}})</a>
       {{#labels}}
       <ul class="labels">
@@ -85,6 +85,18 @@
   </script>
 
   <script id="labelOption" class="partial" type="text/html">
+    <option value="{{name}}" data-color="{{color}}">{{name}} ({{issues}})</option>
+  </script>
+
+  <script id="milestoneSelector" type="text/html">
+    <select multiple name="milestoneSelector" id="milestones" data-placeholder="Filter by milestones">
+    {{#milestones}}
+      {{>milestoneOption}}
+    {{/milestones}}
+    </select>
+  </script>
+
+  <script id="milestoneOption" class="partial" type="text/html">
     <option value="{{name}}" data-color="{{color}}">{{name}} ({{issues}})</option>
   </script>
 
