@@ -14,7 +14,7 @@ $(function() {
     milestones: {}
   };
 
-  $('h1.title').append(" / "+githubOrganisation);
+  $('h1.title').append(" for github  / "+githubOrganisation);
 
   // Events
 
