@@ -144,15 +144,31 @@ $(function() {
     if($('#showOpen').is(':checked')){
       showOpen = true
     }
+    var showCommented = false;
+    if($('#showCommented').is(':checked')){
+      showCommented = true
+    }
+    var showUncommented = false;
+    if($('#showUncommented').is(':checked')){
+      showUncommented = true
+    }
     $('.issues > li').each(function(){
       var $this = $(this);
       var hide = 0;
       // Show closed
-      if($(this).hasClass('closed') && !showClosed){
+      if($this.hasClass('closed') && !showClosed){
         hide++;
       }
       // Show open
-      if($(this).hasClass('open') && !showOpen){
+      if($this.hasClass('open') && !showOpen){
+        hide++;
+      }
+      // Show commented
+      if($this.find('.comments').length === 1 && !showCommented){
+        hide++;
+      }
+      // Show uncommented
+      if($this.find('.comments').length === 0 && !showUncommented){
         hide++;
       }
       // Filter by repos
@@ -160,7 +176,7 @@ $(function() {
         hide++;
       }
       // Filter by labels
-      var thisLabels = $this.find('.labels>li').map(function() {return $(this).text()}).get();
+      var thisLabels = $this.find('.labels>li').map(function() {return $this.text()}).get();
       if(labels && _.intersection(labels, thisLabels).length != labels.length){
         hide++;
       }
