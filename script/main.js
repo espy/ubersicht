@@ -216,6 +216,11 @@ $(function() {
 
     updateControls();
 
+    // cache
+    try {
+      localStorage.setItem('issues', JSON.stringify(issues));
+    } catch(e) {}
+
     return issues;
   }
 
@@ -300,10 +305,6 @@ $(function() {
 
   // Render the whole thing
   function render (issues) {
-    // cache
-    try {
-      localStorage.setItem('issues', JSON.stringify(issues));
-    } catch(e) {}
 
     $('h1.title').replaceWith('<h1 class="title"><strong>Ubersicht</strong> github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
 
