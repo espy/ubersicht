@@ -35,10 +35,10 @@ $(function() {
         issue.comments = "";
         break;
         case 1:
-        issue.comments = "1 comment";
+        issue.comments = "1&nbsp;comment";
         break;
         default:
-        issue.comments = issue.comments + " comments";
+        issue.comments = issue.comments + "&nbsp;comments";
         break;
       }
       if(issue.milestone){
