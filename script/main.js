@@ -300,7 +300,13 @@ $(function() {
 
   // Render the whole thing
   function render (issues) {
+    // cache
+    try {
+      localStorage.setItem('issues', JSON.stringify(issues));
+    } catch(e) {}
+
     $('h1.title').replaceWith('<h1 class="title"><strong>Ubersicht</strong> github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
+
     $('.checkboxes').removeClass('hide');
     var issueHTML = ich.issues({issues: issues});
     $(document.body).append(issueHTML);
@@ -342,5 +348,10 @@ $(function() {
   .then(addRepoInformation)
   .then(getMetadata)
   .then(render)
-  .fail(onError)
+  .fail(onError);
+
+  //
+  try {
+    render(JSON.parse(localStorage.getItem('issues')));
+  } catch(e) {}
 });
