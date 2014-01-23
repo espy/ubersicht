@@ -2,6 +2,8 @@ $(function() {
   var githubOrganisation = 'hoodiehq';
   if(window.location.hash != ""){
     githubOrganisation = window.location.hash.substr(1);
+  } else {
+    window.location.hash = githubOrganisation;
   }
   // labelForNewCommitters is what you label simple issues for new committers with
   // Will expose a new button "show issues for new committers" if not empty
@@ -14,7 +16,7 @@ $(function() {
     milestones: []
   };
 
-  $('h1.title').append(' for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
+  $('h1.title').append(' is loading github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
 
   $('input.orange').iCheck({
     checkboxClass: 'icheckbox_flat-orange',
@@ -58,12 +60,12 @@ $(function() {
     }
 
     // cache for quick development
-    return $.getJSON('./script/cache.json');
+    //return $.getJSON('./script/cache.json');
 
-    // return $.ajax({
-    //   url: 'https://api.github.com/search/issues',
-    //   data: query
-    // });
+    return $.ajax({
+      url: 'https://api.github.com/search/issues',
+      data: query
+    });
   }
 
   function mapDataItems (data) {
@@ -241,6 +243,8 @@ $(function() {
   }
 
   function render (issues) {
+    $('h1.title').replaceWith('<h1 class="title">Ubersicht for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
+    $('.checkboxes').removeClass('hide');
     var issueHTML = ich.issues({issues: issues});
     console.log("issues: ",issues);
     $(document.body).append(issueHTML);

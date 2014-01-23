@@ -12,6 +12,10 @@ a{
   text-decoration: none;
 }
 
+.hide{
+  display: none;
+}
+
 /* controls */
 
 .select2-container{
@@ -21,10 +25,6 @@ a{
 
 .stateControls {
   float: left;
-}
-
-.controls{
-  margin-bottom: 3px;
 }
 
 .controls .checkboxes{
@@ -106,17 +106,23 @@ a{
 .select2-container-multi.select2-container-active .select2-choices {
   box-shadow: none;
   border: none;
+  border-top: 1px solid #eee;
 }
 
 .select2-container-multi .select2-choices {
   min-height: 2.75em;
-  background: white;
   background-image: none;
   border: none;
+  border-top: 1px solid #eee;
+  padding: 0 0 0 .5em;
+}
+
+.select2-container-multi:last-of-type .select2-choices {
+  border-bottom: 1px solid #eee;
 }
 
 .select2-container-multi .select2-choices .select2-search-field input {
-  padding: .35em 0 0em 1em;
+  padding: .35em 0 0em .5em;
   line-height: 1.75em;
   width: auto !important;
 }
@@ -152,6 +158,11 @@ a{
 .select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close {
   top: 10em;
   left: 10em;
+}
+
+.select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit{
+  line-height: 2em;
+  padding: 0 0 0 .5em;
 }
 
 h1 {
@@ -211,7 +222,7 @@ h1 {
 }
 
 .issues > .closed{
-  border-left: 10px solid green;
+  border-left: 10px solid #1ABC9C;
 }
 
 .title {
