@@ -216,11 +216,6 @@ $(function() {
 
     updateControls();
 
-    // cache
-    try {
-      localStorage.setItem('issues', JSON.stringify(issues));
-    } catch(e) {}
-
     return issues;
   }
 
@@ -344,9 +339,4 @@ $(function() {
   .then(addRepoInformation)
   .then(getMetadata)
   .then(render);
-
-  //
-  try {
-    render(JSON.parse(localStorage.getItem('issues')));
-  } catch(e) {}
 });
