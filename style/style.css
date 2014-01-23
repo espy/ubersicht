@@ -35,6 +35,113 @@ a{
   margin: 15px;
 }
 
+.select2-search input {
+  background: none;
+}
+
+.select2-drop {
+  box-shadow: none;
+}
+
+.select2-drop.select2-drop-above {
+  box-shadow: none;
+}
+
+.select2-drop .select2-disabled {
+  background: none;
+  color: #CCC;
+}
+
+.select2-drop .select2-highlighted {
+  background: #1abc9c;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices {
+  box-shadow: none;
+}
+
+.select2-dropdown-open.select2-drop-above .select2-choice,
+.select2-dropdown-open.select2-drop-above .select2-choices {
+  background: white;
+  background-image: none;
+}
+
+.select2-container {
+  width: 100%;
+  margin: 0;
+  display: block;
+}
+
+.select2-container .select2-choice {
+  height: 2.75em;
+  line-height: 2.75em;
+  padding: .025em 0 0 .5em;
+  background: white;
+  background-image: none;
+}
+
+.select2-container .select2-choice .select2-arrow {
+  background: white;
+  background-image: none;
+  border-left: none;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+  background-position: 0 8px;
+}
+
+.select2-container:last-child {
+  margin-bottom: 0.25em;
+}
+
+.select2-container-multi.select2-container-active .select2-choices {
+  box-shadow: none;
+}
+
+.select2-container-multi .select2-choices {
+  min-height: 2.75em;
+  background: white;
+  background-image: none;
+  border: none;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+  padding: .35em 0 0em .5em;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  border-radius: 1em;
+  background: white;
+  background-image: none;
+  background-color: white;
+  font-size: 1em;
+  height: 2.1em;
+  margin: .25em 0 .25em .25em;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice.select2-search-choice-focus {
+  background: #1abc9c;
+  border: none;
+  box-shadow: none;
+  color: white;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice div {
+  line-height: 1.5em;
+  margin: 0 .75em;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close {
+  top: 10em;
+  left: 10em;
+}
+
 h1 {
   font-size: 2em;
   padding: 25px 0 25px 15px;

@@ -33,6 +33,10 @@ $(function() {
 
   // Events
 
+  $('.controls').change(function(event){
+    applyFilters()
+  })
+
   $('select').on('change', function(event){
     applyFilters()
   })
