@@ -181,7 +181,13 @@ a{
 
 h1 {
   font-size: 2em;
-  padding: 25px 0 25px 15px;
+  padding: 25px 0 0 15px;
+}
+
+h6 {
+  font-size: .7em;
+  text-transform: uppercase;
+  padding: 0 0 25px 15px;
   border-bottom: 1px solid #eee;
 }
 

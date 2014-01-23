@@ -8,7 +8,10 @@
  * Repo: https://github.com/espy/ubersicht
  * Live: http://espy.github.io/ubersicht
  *
- * Alex Feyerke (https://github.com/espy, @espylaub)
+ * Alex Feyerke     (https://github.com/espy, @espylaub)
+ * Caolan McMahon   (https://github.com/caolan, @caolan)
+ * Gregor Martynus  (https://github.com/gr2m, @gr2m)
+ *
  * 2014
  *
  * Thanks to @hoodiehq and all the wonderful people who make open-source
