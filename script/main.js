@@ -303,15 +303,25 @@ $(function() {
     $('h1.title').replaceWith('<h1 class="title"><strong>Ubersicht</strong> github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
     $('.checkboxes').removeClass('hide');
     var issueHTML = ich.issues({issues: issues});
-    console.log("issues: ",issues);
     $(document.body).append(issueHTML);
     $("time.timeago").timeago();
     updateSummary();
   }
 
   function updateSummary () {
-    var lenght = $('.issues > li:visible').length;
-    $('.summary').text(lenght + ' issues.');
+    var length = $('.issues > li:visible').length;
+    switch(length){
+      case 0:
+      length = "No issues";
+      break;
+      case 1:
+      length = "1 issue";
+      break;
+      default:
+      length = length + " issues";
+      break;
+    }
+    $('.summary').text(length);
   }
 
   // Halp.
