@@ -1,31 +1,31 @@
 $(function() {
-  var githubOrganisation = "hoodiehq";
+  var githubOrganisation = 'hoodiehq';
 
-  function getIssues(label, callback){
-    var query = 'q=user:' + encodeURIComponent(githubOrganisation)
-                          + '+state:open'
-                          + '&per_page=100';
-    if(label){
-      query += '+label:' + label;
-    }
-    $.ajax({
-      url: 'https://api.github.com/search/issues',
-      data: (
-        query
-      ),
-      error: callback,
-      success: function (data) {
-        callback(null, data.items);
+  function getIssues(filters){
+    var query = 'per_page=100&q=user:' + encodeURIComponent(githubOrganisation);
+
+    if(filters){
+      if (filters.label) {
+        query += '+label:' + filters.label;
       }
-    });
+      if (filters.state) {
+        query += '+state:' + filters.state;
+      }
+    }
+
+    // cache for quick development
+    return $.getJSON('./script/cache.json');
+
+    // return $.ajax({
+    //   url: 'https://api.github.com/search/issues',
+    //   data: query
+    // });
   }
 
-  getIssues(null, null, function (err, issues) {
-    console.log("issues: ",issues);
-    addRepoInformation(issues);
-    var issueHTML = ich.issues({issues: issues});
-    $('body').append(issueHTML);
-  });
+  function mapDataItems (data) {
+    debugger
+    return data.items;
+  }
 
   function addRepoInformation(issues){
     issues.forEach(function(issue){
@@ -46,6 +46,23 @@ $(function() {
         issue.milestone.html_url = issue.milestone.url.replace('api.', '').replace('repos/', '').replace('milestones/', 'issues?milestone=');
       }
     });
+
+    return issues;
   }
 
+  function render (issues) {
+    var issueHTML = ich.issues({issues: issues});
+    console.log("issues: ",issues);
+    $(document.body).append(issueHTML);
+  }
+
+  function onError (error) {
+    alert(error);
+  }
+
+  getIssues({state: 'open'})
+  .then(mapDataItems)
+  .then(addRepoInformation)
+  .then(render)
+  .fail(onError)
 });
