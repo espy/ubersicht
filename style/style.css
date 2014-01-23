@@ -183,11 +183,15 @@ h1 {
   font-size: 2em;
   padding: 25px 0 0 15px;
 }
+h1 strong {
+  font-weight: bold;
+  margin-right: 0.3em;
+}
 
 h6 {
   font-size: .7em;
   text-transform: uppercase;
-  padding: 0 0 25px 15px;
+  padding: .4em 0 25px 15px;
   border-bottom: 1px solid #eee;
 }
 
@@ -270,4 +274,38 @@ h6 {
   right: 10px;
   bottom: 10px;
   font-size: .75em;
+}
+
+.summary {
+  padding: .5em;
+  background: #444;
+  color: #eee;
+  font-size: .8em;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .issues {
+    font-size: .8em;
+  }
+
+  .issues > li {
+    padding-left: 50px;
+  }
+
+  .authorPlaceholder img,
+  .assigneePlaceholder img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .authorPlaceholder,
+  .assigneePlaceholder {
+    width: 37px;
+    height: 37px;
+    margin-left: -45px;
+  }
+  .assigneePlaceholder {
+    margin-top: 26px;
+  }
 }

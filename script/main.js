@@ -281,6 +281,8 @@ $(function() {
         $this.hide();
       }
     });
+
+    updateSummary();
   }
 
   // Once we have all the metadata, we can populate the filters
@@ -298,12 +300,18 @@ $(function() {
 
   // Render the whole thing
   function render (issues) {
-    $('h1.title').replaceWith('<h1 class="title">Ubersicht for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
+    $('h1.title').replaceWith('<h1 class="title"><strong>Ubersicht</strong> github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
     $('.checkboxes').removeClass('hide');
     var issueHTML = ich.issues({issues: issues});
     console.log("issues: ",issues);
     $(document.body).append(issueHTML);
     $("time.timeago").timeago();
+    updateSummary();
+  }
+
+  function updateSummary () {
+    var lenght = $('.issues > li:visible').length;
+    $('.summary').text(lenght + ' issues.');
   }
 
   // Halp.
