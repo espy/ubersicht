@@ -24,8 +24,12 @@
         {{>assignee}}
       {{/assignee}}
       </div>
-      <a class="title" href="{{html_url}}">{{title}} {{#comments}}<span class="comments">{{comments}}</span>{{/comments}}</a><br>
-      <a class="repoName" href="{{repo_url}}">{{name}}</a> <a class="issueNumber" href="{{html_url}}">(#{{number}})</a>
+      <a class="title" href="{{html_url}}">{{title}} {{#comments}}<span class="comments">{{comments}}</span>{{/comments}}</a>
+      <br>
+      <a class="repoName" href="{{repo_url}}">{{name}}</a> <a class="issueNumber" href="{{html_url}}">(#{{number}}
+        {{#milestone}}
+          / <a href="{{html_url}}">{{title}}</a>
+        {{/milestone}})</a>
       {{#labels}}
       <ul class="labels">
       {{/labels}}

@@ -41,6 +41,9 @@ $(function() {
         issue.comments = issue.comments + " comments";
         break;
       }
+      if(issue.milestone){
+        issue.milestone.html_url = issue.milestone.url.replace('api.', '').replace('repos/', '').replace('milestones/', 'issues?milestone=');
+      }
     });
   }
 
