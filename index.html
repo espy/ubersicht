@@ -67,15 +67,13 @@
         {{#milestone}}
           / <a class="milestone" href="{{html_url}}">{{title}}</a>
         {{/milestone}})</a>
-      {{#labels}}
+
       <ul class="labels">
-      {{/labels}}
       {{#labels}}
         {{>label}}
       {{/labels}}
-      {{#labels}}
       </ul>
-      {{/labels}}
+
       <time class="timeago" datetime="{{updated_at}}"></time>
     </li>
   </script>
