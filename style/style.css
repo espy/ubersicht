@@ -23,6 +23,10 @@ a{
   float: left;
 }
 
+.controls{
+  margin-bottom: 3px;
+}
+
 .controls .checkboxes{
   clear:both;
 }
@@ -41,6 +45,7 @@ a{
 
 .select2-drop {
   box-shadow: none;
+  line-height: 1.5em;
 }
 
 .select2-drop.select2-drop-above {
@@ -100,6 +105,7 @@ a{
 
 .select2-container-multi.select2-container-active .select2-choices {
   box-shadow: none;
+  border: none;
 }
 
 .select2-container-multi .select2-choices {
@@ -110,7 +116,13 @@ a{
 }
 
 .select2-container-multi .select2-choices .select2-search-field input {
-  padding: .35em 0 0em .5em;
+  padding: .35em 0 0em 1em;
+  line-height: 1.75em;
+  width: auto !important;
+}
+
+.select2-drop-active{
+  border: none;
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
@@ -133,7 +145,7 @@ a{
 }
 
 .select2-container-multi .select2-choices .select2-search-choice div {
-  line-height: 1.5em;
+  line-height: 1.75em;
   margin: 0 .75em;
 }
 
