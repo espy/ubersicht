@@ -251,7 +251,7 @@ h6 {
 
 .title {
   font-size: 1.25em;
-  line-height: 1.5em;
+  line-height: 1.25em;
 }
 
 .repoName {
@@ -307,5 +307,19 @@ h6 {
   }
   .assigneePlaceholder {
     margin-top: 26px;
+  }
+  .timeago{
+    position: relative;
+    right: auto;
+    bottom: auto;
+    float: right;
+    margin-right: 10px;
+    margin-top: 8px;
+  }
+  .repoName {
+    line-height: 2em;
+  }
+  .labels {
+    margin-top: 0;
   }
 }
