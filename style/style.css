@@ -12,6 +12,13 @@ a{
   text-decoration: none;
 }
 
+/* controls */
+
+#s2id_repos {
+  display: block;
+  width: 100%;
+}
+
 h1 {
   font-size: 2em;
   padding: 25px 0 25px 100px;
@@ -54,11 +61,11 @@ h1 {
   text-transform: uppercase;
 }
 
-.issues > li.open{
+.issues > .open{
   border-left: 10px solid orange;
 }
 
-.issues > li.closed{
+.issues > .closed{
   border-left: 10px solid green;
 }
 
