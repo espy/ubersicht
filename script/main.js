@@ -48,7 +48,7 @@ $(function() {
   });
 
   function getIssues(filters){
-    var query = 'per_page=100&q=user:' + encodeURIComponent(githubOrganisation);
+    var query = 'per_page=100&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
 
     if(filters){
       if (filters.label) {
@@ -248,6 +248,7 @@ $(function() {
     var issueHTML = ich.issues({issues: issues});
     console.log("issues: ",issues);
     $(document.body).append(issueHTML);
+    $("time.timeago").timeago();
   }
 
   function onError (error) {

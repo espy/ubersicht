@@ -245,3 +245,10 @@ h1 {
   border-radius: 6px;
   text-transform: uppercase;
 }
+
+.timeago {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: .75em;
+}
