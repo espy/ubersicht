@@ -10,8 +10,8 @@ $(function() {
     open: 0,
     closed: 0,
     repos: [],
-    labels: {},
-    milestones: {}
+    labels: [],
+    milestones: []
   };
 
   $('h1.title').append(" for github  / "+githubOrganisation);
@@ -22,7 +22,7 @@ $(function() {
     applyFilters()
   })
 
-  $('#repos').on('change', function(event){
+  $('select').on('change', function(event){
     applyFilters()
   })
 
@@ -39,12 +39,12 @@ $(function() {
     }
 
     // cache for quick development
-    // return $.getJSON('./script/cache.json');
+    return $.getJSON('./script/cache.json');
 
-    return $.ajax({
-      url: 'https://api.github.com/search/issues',
-      data: query
-    });
+    // return $.ajax({
+    //   url: 'https://api.github.com/search/issues',
+    //   data: query
+    // });
   }
 
   function mapDataItems (data) {
@@ -113,6 +113,19 @@ $(function() {
           issues: 1
         })
       }
+      var labels = issue.labels;
+      labels.forEach(function(label){
+        var metaLabel = _.findWhere(metadata.labels, {name: label.name});
+        if(metaLabel){
+          metaLabel.issues++;
+        } else {
+          metadata.labels.push({
+            name: label.name,
+            issues: 1,
+            color: label.color
+          })
+        }
+      })
     });
 
     updateControls();
@@ -122,6 +135,7 @@ $(function() {
 
   function applyFilters(){
     var repos = $('#repos').val();
+    var labels = $('#labels').val();
     var showClosed = false;
     if($('#showClosed').is(':checked')){
       showClosed = true
@@ -141,8 +155,13 @@ $(function() {
       if($(this).hasClass('open') && !showOpen){
         hide++;
       }
-      // Filter by repo
+      // Filter by repos
       if(repos && repos.indexOf($this.attr('data-repo')) === -1){
+        hide++;
+      }
+      // Filter by labels
+      var thisLabels = $this.find('.labels>li').map(function() {return $(this).text()}).get();
+      if(labels && _.intersection(labels, thisLabels).length != labels.length){
         hide++;
       }
       if(hide === 0){
@@ -156,9 +175,10 @@ $(function() {
   function updateControls(){
     $('#showOpen + label').text("Show "+metadata.open+" open issues");
     $('#showClosed + label').text("Show "+metadata.closed+" closed issues");
-    console.log("repos",metadata.repos);
     var repoSelectorHTML = ich.repoSelector({repos: metadata.repos});
     $('.controls').append(repoSelectorHTML);
+    var labelSelectorHTML = ich.labelSelector({labels: metadata.labels});
+    $('.controls').append(labelSelectorHTML);
     $("select").select2();
   }
 

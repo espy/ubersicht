@@ -14,7 +14,7 @@ a{
 
 /* controls */
 
-#s2id_repos {
+.select2-container{
   display: block;
   width: 100%;
 }

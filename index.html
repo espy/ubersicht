@@ -17,7 +17,7 @@
   </div>
 
   <script id="issues" type="text/html">
-    <ul class="issues open closed">
+    <ul class="issues">
     {{#issues}}
       {{>issue}}
     {{/issues}}
@@ -67,6 +67,18 @@
 
   <script id="repo" class="partial" type="text/html">
     <option value="{{name}}">{{name}} ({{issues}})</option>
+  </script>
+
+  <script id="labelSelector" type="text/html">
+    <select multiple name="labelSelector" id="labels" data-placeholder="Filter by labels">
+    {{#labels}}
+      {{>labelOption}}
+    {{/labels}}
+    </select>
+  </script>
+
+  <script id="labelOption" class="partial" type="text/html">
+    <option value="{{name}}" data-color="{{color}}">{{name}} ({{issues}})</option>
   </script>
 
   <script src="bower_components/jquery/jquery.min.js"></script>
