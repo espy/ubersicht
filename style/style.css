@@ -19,9 +19,25 @@ a{
   width: 100%;
 }
 
+.stateControls {
+  float: left;
+}
+
+.controls .checkboxes{
+  clear:both;
+}
+
+.controls .checkboxes ul{
+  display: inline-block;
+}
+
+.controls .checkboxes li{
+  margin: 15px;
+}
+
 h1 {
   font-size: 2em;
-  padding: 25px 0 25px 100px;
+  padding: 25px 0 25px 15px;
   border-bottom: 1px solid #eee;
 }
 

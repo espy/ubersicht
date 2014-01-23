@@ -16,15 +16,30 @@ $(function() {
 
   $('h1.title').append(' for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
 
-  // Events
+  $('input.orange').iCheck({
+    checkboxClass: 'icheckbox_flat-orange',
+    radioClass: 'iradio_flat-orange'
+  });
 
-  $('.controls').change(function(event){
-    applyFilters()
-  })
+  $('input.green').iCheck({
+    checkboxClass: 'icheckbox_flat-green',
+    radioClass: 'iradio_flat-green'
+  });
+
+  $('input.grey').iCheck({
+    checkboxClass: 'icheckbox_flat-grey',
+    radioClass: 'iradio_flat-grey'
+  });
+
+  // Events
 
   $('select').on('change', function(event){
     applyFilters()
   })
+
+  $('input').on('ifChanged', function(event){
+    applyFilters()
+  });
 
   function getIssues(filters){
     var query = 'per_page=100&q=user:' + encodeURIComponent(githubOrganisation);
