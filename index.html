@@ -30,6 +30,9 @@
 
   <script id="issue" class="partial" type="text/html">
     <li class="{{state}}" data-repo="{{repo_name}}" >
+      <div class="authorPlaceholder">
+        <a class="author" href="{{user.url}}"><img src="{{user.avatar_url}}" alt=""></a>
+      </div>
       <div class="assigneePlaceholder">
       {{#assignee}}
         {{>assignee}}

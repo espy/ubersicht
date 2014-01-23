@@ -25,15 +25,25 @@ h1 {
   border-bottom: 1px solid #eee;
 }
 
+.authorPlaceholder,
 .assigneePlaceholder {
-  width: 70px;
-  height: 70px;
+  width: 74px;
+  height: 74px;
   background-color: #e5e5e5;
   border-radius: 50%;
   float:left;
   margin-right: 10px;
+  z-index: 10;
+  position: relative;
+  border: 2px solid white;
 }
 
+.assigneePlaceholder {
+  margin-left: -20px;
+  z-index: 1;
+}
+
+.authorPlaceholder img,
 .assigneePlaceholder img {
   width: 70px;
   height: 70px;

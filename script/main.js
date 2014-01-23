@@ -136,6 +136,7 @@ $(function() {
   function applyFilters(){
     var repos = $('#repos').val();
     var labels = $('#labels').val();
+    console.log("labels: ",labels);
     var showClosed = false;
     if($('#showClosed').is(':checked')){
       showClosed = true
@@ -176,8 +177,11 @@ $(function() {
         hide++;
       }
       // Filter by labels
-      var thisLabels = $this.find('.labels>li').map(function() {return $this.text()}).get();
-      if(labels && _.intersection(labels, thisLabels).length != labels.length){
+      var thisLabels = $this.find('.labels>li').map(function() {return $(this).text()}).get();
+      console.log("thisLabels: ",thisLabels);
+      var intersection = _.intersection(labels, thisLabels)
+      if(labels && intersection && intersection.length != labels.length){
+        console.log("intersection: ", intersection.length != labels.length);
         hide++;
       }
       if(hide === 0){
