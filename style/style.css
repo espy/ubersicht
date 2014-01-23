@@ -195,6 +195,10 @@ h6 {
   border-bottom: 1px solid #eee;
 }
 
+h6 a:hover {
+  text-decoration: underline;
+}
+
 .authorPlaceholder,
 .assigneePlaceholder {
   width: 74px;
