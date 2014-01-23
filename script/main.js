@@ -1,5 +1,8 @@
 $(function() {
   var githubOrganisation = 'hoodiehq';
+  // labelForNewCommitters is what you label simple issues for new committers with
+  // Will expose a new button "show issues for new committers" if not empty
+  var labelForNewCommitters = 'starter';
 
   function getIssues(filters){
     var query = 'per_page=100&q=user:' + encodeURIComponent(githubOrganisation);
@@ -23,7 +26,6 @@ $(function() {
   }
 
   function mapDataItems (data) {
-    debugger
     return data.items;
   }
 
