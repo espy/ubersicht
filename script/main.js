@@ -330,11 +330,6 @@ $(function() {
     $('.summary').text(length);
   }
 
-  // Halp.
-  function onError (error) {
-    alert(error);
-  }
-
   // 3
   // …
   // 2
@@ -347,8 +342,7 @@ $(function() {
   .then(removeDuplicates)
   .then(addRepoInformation)
   .then(getMetadata)
-  .then(render)
-  .fail(onError);
+  .then(render);
 
   //
   try {
