@@ -53,7 +53,7 @@
   <script id="issue" class="partial" type="text/html">
     <li class="{{state}}" data-repo="{{repo_name}}" >
       <div class="authorPlaceholder">
-        <a class="author" href="{{user.url}}"><img src="{{user.avatar_url}}" alt=""></a>
+        <a class="author" href="{{user.url}}" title="Opened by {{user.login}}"><img src="{{user.avatar_url}}" alt=""></a>
       </div>
       <div class="assigneePlaceholder">
       {{#assignee}}
@@ -84,7 +84,7 @@
   </script>
 
   <script id="assignee" class="partial" type="text/html">
-    <a class="assignee" href="{{url}}"><img src="{{avatar_url}}" alt=""></a>
+    <a class="assignee" href="{{url}}"  title="Assigned to {{login}}"><img src="{{avatar_url}}" alt=""></a>
   </script>
 
   <script id="repoSelector" type="text/html">

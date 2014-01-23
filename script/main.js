@@ -1,4 +1,24 @@
+/*
+ * Ubersicht
+ * ---------
+ *
+ * Ubersicht is a lightweight, frontend only dashboard for all
+ * the public repos of any github organisation.
+ *
+ * Repo: https://github.com/espy/ubersicht
+ * Live: http://espy.github.io/ubersicht
+ *
+ * Alex Feyerke (https://github.com/espy, @espylaub)
+ * 2014
+ *
+ * Thanks to @hoodiehq and all the wonderful people who make open-source
+ * software and libraries that make development faster, simpler and more fun.
+ *
+ */
+
 $(function() {
+  // The github user or organisation you'd like to load issues for
+  // Defaults to hoodiehq!
   var githubOrganisation = 'hoodiehq';
   if(window.location.hash != ""){
     githubOrganisation = window.location.hash.substr(1);
@@ -8,6 +28,7 @@ $(function() {
   // labelForNewCommitters is what you label simple issues for new committers with
   // Will expose a new button "show issues for new committers" if not empty
   var labelForNewCommitters = 'starter';
+  // Place to store metadata about all the loaded issues
   var metadata = {
     open: 0,
     closed: 0,
@@ -16,8 +37,10 @@ $(function() {
     milestones: []
   };
 
+  // Show loading message in header
   $('h1.title').append(' is loading github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
 
+  // Icheck is a little umständlich here
   $('input.orange').iCheck({
     checkboxClass: 'icheckbox_flat-orange',
     radioClass: 'iradio_flat-orange'
@@ -35,6 +58,7 @@ $(function() {
 
   // Events
 
+  // Whatever changes in .controls: filter all the things!
   $('.controls').change(function(event){
     applyFilters()
   })
@@ -47,6 +71,8 @@ $(function() {
     applyFilters()
   });
 
+  // A helper to only show open issues with a label meant for new committers.
+  // You can set this `labelForNewCommitters` yourself at the top of this file.
   $('.showStarter').click(function(event){
     event.preventDefault();
     $('#showOpen').iCheck('check');
@@ -56,6 +82,8 @@ $(function() {
     $("#milestones").val("").trigger("change");
   })
 
+  // Fetch the organisation's issues with a single search request.
+  // This is rate-limited to 5 requests per minute, which should be enough.
   function getIssues(filters){
     var query = 'per_page=100&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
 
@@ -68,9 +96,10 @@ $(function() {
       }
     }
 
-    // cache for quick development
-    //return $.getJSON('./script/cache.json');
+    // Cache for quick development
+    // return $.getJSON('./script/cache.json');
 
+    // The real request
     return $.ajax({
       url: 'https://api.github.com/search/issues',
       data: query
@@ -81,6 +110,7 @@ $(function() {
     return data.items;
   }
 
+  // The github search occasionally returns duplicates, this filters them out
   function removeDuplicates(issues){
     issues.forEach(function(issue){
       var duplicates = _.where(issues, {id: issue.id});
@@ -99,11 +129,17 @@ $(function() {
     return validIssues;
   }
 
+  // Some things aren't included in the JSON form the search query,
+  // so we modify each issue to contain the missing data
   function addRepoInformation(issues){
     issues.forEach(function(issue){
+      // Only modify issues that aren't flagged as duplicates by removeDuplicates()
       if(issue.ignore === undefined){
+        // generate repo name from repo url
         issue.repo_name = issue.url.split('/')[5]
+        // generate http repo-url from git url
         issue.repo_url = issue.url.replace('api.', '').replace('repos/', '').split('/').slice(0,-1).join('/');
+        // Pluralisation for the comment counter
         switch(issue.comments){
           case 0:
           issue.comments = "";
@@ -115,10 +151,12 @@ $(function() {
           issue.comments = issue.comments + "&nbsp;comments";
           break;
         }
+        // generate http milestone-url from git url
         if(issue.milestone){
           issue.milestone.html_url = issue.milestone.url.replace('api.', '').replace('repos/', '').replace('milestones/', 'issues?milestone=');
         }
       } else {
+        // If it's a duplicate, remove it
         issue = undefined;
       }
     });
@@ -126,8 +164,10 @@ $(function() {
     return issues;
   }
 
+  // Crawl the issues for some metadata we need for the filters
   function getMetadata (issues) {
     issues.forEach(function(issue){
+      // Count how many open and closed issues we loaded
       if(issue.state === 'open'){
         metadata.open++;
       } else {
@@ -143,7 +183,6 @@ $(function() {
           issues: 1
         })
       }
-
       // collect all labels and count how many issues they have
       var labels = issue.labels;
       labels.forEach(function(label){
@@ -158,7 +197,6 @@ $(function() {
           })
         }
       })
-
       // collect all milestones and count how many issues they have
       if(issue.milestone){
         var milestone = _.findWhere(metadata.milestones, {name: issue.milestone.title});
@@ -178,7 +216,9 @@ $(function() {
     return issues;
   }
 
+  // Apply the current filters to the issues list
   function applyFilters(){
+    // Fetch current filter values
     var repos = $('#repos').val();
     var labels = $('#labels').val();
     var milestones = $('#milestones').val();
@@ -198,6 +238,7 @@ $(function() {
     if($('#showUncommented').is(':checked')){
       showUncommented = true
     }
+    // Do the actual filtering
     $('.issues > li').each(function(){
       var $this = $(this);
       var hide = 0;
@@ -239,6 +280,7 @@ $(function() {
     });
   }
 
+  // Once we have all the metadata, we can populate the filters
   function updateControls(){
     $('#showOpen + label').text("Show "+metadata.open+" open issues");
     $('#showClosed + label').text("Show "+metadata.closed+" closed issues");
@@ -251,6 +293,7 @@ $(function() {
     $("select").select2();
   }
 
+  // Render the whole thing
   function render (issues) {
     $('h1.title').replaceWith('<h1 class="title">Ubersicht for github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
     $('.checkboxes').removeClass('hide');
@@ -260,10 +303,18 @@ $(function() {
     $("time.timeago").timeago();
   }
 
+  // Halp.
   function onError (error) {
     alert(error);
   }
 
+  // 3
+  // …
+  // 2
+  // …
+  // 1
+  // …
+  // GO!
   getIssues({state: 'open'})
   .then(mapDataItems)
   .then(removeDuplicates)
