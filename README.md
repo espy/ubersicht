@@ -1,8 +1,12 @@
 # Ubersicht
 
-Ubersicht is a lightweight, frontend only dashboard for all the public repos of any github organisation. It runs as a gh-page, so you can just fork this repo, change the `githubOrganisation`-variable in `main.js` and you've got your own public github dashboard.
+Ubersicht is a lightweight, frontend only dashboard for all the public repos of any github organisation. Change the hash in the url to your github user or organisation name to use it for yourself.
 
-It requires no API key and no data storage.
+It runs as a gh-page, so you can just fork this repo, change the `githubOrganisation`-variable in `main.js` and you've got your own public github dashboard you can style and mod at your whim.
+
+Ubersicht filters milestones by name, not by id, which means that if you use consistent milestone names across repos, you can have quasi-cross-repo milestones. How cool is that?
+
+It requires no API key and no data storage and only uses a single API request to fetch data.
 
 Yeah.
 
@@ -12,12 +16,6 @@ Thanks!
 
 ## Planned features
 
-- Filters
-    √ state
-    √ with/without comments
-    - in milestone (pick from select2 box)
-    √ in repo (pick from select2 box)
-    √ label (pick from select2 box)
 - Overviews:
     - new issues in the last 24h (since last visit)
     - newly commented issues in the last 24h (since last visit)
