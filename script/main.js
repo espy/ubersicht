@@ -1,7 +1,8 @@
 $(function() {
-  function getIssues(org, label, callback){
-    org = org || "hoodiehq";
-    var query = 'q=user:' + encodeURIComponent(org)
+  var githubOrganisation = "hoodiehq";
+
+  function getIssues(label, callback){
+    var query = 'q=user:' + encodeURIComponent(githubOrganisation)
                           + '+state:open'
                           + '&per_page=100';
     if(label){
