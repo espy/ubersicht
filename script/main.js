@@ -219,22 +219,11 @@ $(function() {
     var repos = $('#repos').val();
     var labels = $('#labels').val();
     var milestones = $('#milestones').val();
-    var showClosed = false;
-    if($('#showClosed').is(':checked')){
-      showClosed = true
-    }
-    var showOpen = false;
-    if($('#showOpen').is(':checked')){
-      showOpen = true
-    }
-    var showCommented = false;
-    if($('#showCommented').is(':checked')){
-      showCommented = true
-    }
-    var showUncommented = false;
-    if($('#showUncommented').is(':checked')){
-      showUncommented = true
-    }
+    var showClosed = $('#showClosed').is(':checked');
+    var showOpen = $('#showOpen').is(':checked');
+    var showCommented = $('#showCommented').is(':checked');
+    var showUncommented = $('#showUncommented').is(':checked');
+
     // Do the actual filtering
     $('.issues > li').each(function(){
       var $this = $(this);
