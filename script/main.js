@@ -47,6 +47,15 @@ $(function() {
     applyFilters()
   });
 
+  $('.showStarter').click(function(event){
+    event.preventDefault();
+    $('#showOpen').iCheck('check');
+    $('#showClosed').iCheck('uncheck');
+    $("#repos").val("").trigger("change");
+    $("#labels").val(labelForNewCommitters).trigger("change");
+    $("#milestones").val("").trigger("change");
+  })
+
   function getIssues(filters){
     var query = 'per_page=100&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
 

@@ -33,10 +33,24 @@ a{
 
 .controls .checkboxes ul{
   display: inline-block;
+  vertical-align: top;
 }
 
 .controls .checkboxes li{
   margin: 15px;
+}
+
+.controls .showStarter{
+  background-color: #009800;
+  padding: 3px 8px;
+  font-size: .8em;
+  color: white;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.controls .showStarter:hover{
+  background-color: #555555;
 }
 
 .select2-search input {
@@ -238,7 +252,6 @@ h1 {
 
 .comments {
   background: #555;
-  color: white;
   padding: 3px 8px;
   font-size: .7em;
   color: white;
