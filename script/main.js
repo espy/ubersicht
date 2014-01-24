@@ -37,7 +37,8 @@ $(function() {
     closed: 0,
     repos: [],
     labels: [],
-    milestones: []
+    milestones: [],
+    usernames: []
   };
 
   // Show loading message in header
@@ -77,6 +78,7 @@ $(function() {
     $("#repos").val("").trigger("change");
     $("#labels").val(labelForNewCommitters).trigger("change");
     $("#milestones").val("").trigger("change");
+    $("#usernames").val("").trigger("change");
   })
 
   // Fetch the organisation's issues with a single search request.
@@ -206,6 +208,31 @@ $(function() {
           })
         }
       }
+      // collect all creators and count how many issues they have
+      if(issue.user){
+        var username = _.findWhere(metadata.usernames, {username: issue.user.login});
+        if(username){
+          username.issues++;
+        } else {
+          metadata.usernames.push({
+            username: issue.user.login,
+            issues: 1
+          })
+        }
+      }
+
+      // collect all assignees and count how many issues they have
+      if(issue.assignee){
+        var assignee = _.findWhere(metadata.usernames, {username: issue.assignee.login});
+        if(assignee){
+          assignee.issues++;
+        } else {
+          metadata.usernames.push({
+            username: issue.assignee.login,
+            issues: 1
+          })
+        }
+      }
     });
 
     updateControls();
@@ -219,6 +246,7 @@ $(function() {
     var repos = $('#repos').val();
     var labels = $('#labels').val();
     var milestones = $('#milestones').val();
+    var usernames = $('#usernames').val();
     var showClosed = $('#showClosed').is(':checked');
     var showOpen = $('#showOpen').is(':checked');
     var showCommented = $('#showCommented').is(':checked');
@@ -252,6 +280,10 @@ $(function() {
       if(milestones && milestones.indexOf($this.find('.milestone').text()) === -1){
         hide++;
       }
+      // Filter by usernames
+      if(usernames && usernames.indexOf($this.attr('data-username')) === -1 && usernames.indexOf($this.attr('data-assignee')) === -1){
+        hide++;
+      }
       // Filter by labels
       var thisLabels = $this.find('.labels>li').map(function() {return $(this).text()}).get();
       var intersection = _.intersection(labels, thisLabels)
@@ -278,6 +310,8 @@ $(function() {
     $('.controls').append(labelSelectorHTML);
     var milestoneSelectorHTML = ich.milestoneSelector({milestones: metadata.milestones});
     $('.controls').append(milestoneSelectorHTML);
+    var usernamesSelectorHTML = ich.usernamesSelector({usernames: metadata.usernames});
+    $('.controls').append(usernamesSelectorHTML);
     $("select").select2();
   }
 

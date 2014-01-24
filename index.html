@@ -54,7 +54,7 @@
   </script>
 
   <script id="issue" class="partial" type="text/html">
-    <li class="{{state}}" data-repo="{{repo_name}}" >
+    <li class="{{state}}" data-repo="{{repo_name}}" data-username="{{user.login}}" data-assignee="{{assignee.login}}">
       <div class="authorPlaceholder">
         <a class="author" href="{{user.html_url}}" title="Opened by {{user.login}}"><img src="{{user.avatar_url}}" alt=""></a>
       </div>
@@ -120,6 +120,18 @@
 
   <script id="milestoneOption" class="partial" type="text/html">
     <option value="{{name}}" data-color="{{color}}">{{name}} ({{issues}})</option>
+  </script>
+
+  <script id="usernamesSelector" type="text/html">
+      <select multiple name="usernamesSelector" id="usernames" data-placeholder="Filter by username or assignee">
+          {{#usernames}}
+          {{>usernameOption}}
+          {{/usernames}}
+      </select>
+  </script>
+
+  <script id="usernameOption" class="partial" type="text/html">
+      <option value="{{username}}" data-color="{{color}}">{{username}} ({{issues}})</option>
   </script>
 
   <script src="bower_components/jquery/jquery.min.js"></script>
