@@ -138,7 +138,7 @@ a{
 .select2-container-multi .select2-choices .select2-search-field input {
   padding: .35em 0 0em .5em;
   line-height: 1.75em;
-  width: auto !important;
+  width: 100%
 }
 
 .select2-drop-active{
