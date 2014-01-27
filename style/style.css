@@ -16,6 +16,65 @@ a{
   display: none;
 }
 
+header {
+  border-bottom: 1px solid #eee;
+  height: 120px;
+}
+
+header>.info {
+  width: 60%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.statusDisplay {
+  width: 100px;
+  height: auto;
+  color: white;
+  display: inline-block;
+  margin: 10px;
+  float: right;
+}
+
+.statusDisplay a{
+  width: 70px;
+  height: 100%;
+  display: block;
+  margin: 0 15px;
+}
+
+.statusDisplay .data {
+  font-size: 1.5em;
+  text-align: center;
+  display: block;
+  line-height: 60px;
+  border: 5px solid #95A5A6;
+  color: #95A5A6;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.statusDisplay .info {
+  font-size: .7em;
+  text-transform: uppercase;
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  width: 100px;
+  margin-left: -15px;
+}
+
+.statusDisplay.showNewOpen .data{
+  border: 5px solid #EB6420;
+  color: #EB6420;
+}
+
+.statusDisplay.showNewClosed .data{
+  border: 5px solid #009800;
+  color: #009800;
+}
+
 /* controls */
 
 .select2-container{
@@ -192,7 +251,6 @@ h6 {
   font-size: .7em;
   text-transform: uppercase;
   padding: .4em 0 25px 15px;
-  border-bottom: 1px solid #eee;
 }
 
 h6 a:hover {
@@ -256,6 +314,7 @@ h6 a:hover {
 .title {
   font-size: 1.25em;
   line-height: 1.25em;
+  padding-top: 2em;
 }
 
 .repoName {

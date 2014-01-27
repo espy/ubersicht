@@ -12,8 +12,12 @@
   <meta name="viewport" content="initial-scale=1">
 </head>
 <body>
-  <h1 class="title"><strong>Ubersicht</strong></h1>
-  <h6>Made by <a href="http://hood.ie">team Hoodie</a> with love. <a href="https://www.gittip.com/hoodiehq/">Leave a tip</a> or <a href="https://github.com/espy/ubersicht">fork this</a>.</h6>
+  <header>
+    <div class="info">
+      <h1 class="title"><strong>Ubersicht</strong></h1>
+      <h6>Made by <a href="http://hood.ie">team Hoodie</a> with love. <a href="https://www.gittip.com/hoodiehq/">Leave a tip</a> or <a href="https://github.com/espy/ubersicht">fork this</a>.</h6>
+    </div>
+  </header>
   <div class="controls">
     <div class="checkboxes hide">
       <ul class="stateControls">
@@ -132,6 +136,15 @@
 
   <script id="usernameOption" class="partial" type="text/html">
       <option value="{{username}}" data-color="{{color}}">{{username}} ({{issues}})</option>
+  </script>
+
+  <script id="status" type="text/html">
+    <div class="statusDisplay {{action}}">
+      <a class="" href="{{url}}">
+        <span class="data">{{data}}</span>
+        <span class="info">{{info}}</span>
+      </a>
+    </div>
   </script>
 
   <script src="bower_components/jquery/jquery.min.js"></script>

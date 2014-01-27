@@ -32,9 +32,11 @@ $(function() {
   // Will expose a new button "show issues for new committers" if not empty
   var labelForNewCommitters = 'starter';
   // Place to store metadata about all the loaded issues
-  var metadata = {
+  window.metadata = {
     open: 0,
     closed: 0,
+    newOpen: 0,
+    newClosed: 0,
     repos: [],
     labels: [],
     milestones: [],
@@ -165,11 +167,21 @@ $(function() {
 
   // Crawl the issues for some metadata we need for the filters
   function getMetadata (issues) {
+    var yesterday = new Date();
+    var dayOfMonth = yesterday.getDate();
+    yesterday.setDate(dayOfMonth - 1);
+    var yesterdayISO = yesterday.toISOString();
     issues.forEach(function(issue){
       // Count how many open and closed issues we loaded
       if(issue.state === 'open'){
+        if(issue.created_at > yesterdayISO){
+          metadata.newOpen++;
+        }
         metadata.open++;
       } else {
+        if(issue.closed_at > yesterdayISO){
+          metadata.newClosed++;
+        }
         metadata.closed++;
       }
       // collect all repos and count how many issues they have
@@ -313,6 +325,22 @@ $(function() {
     var usernamesSelectorHTML = ich.usernamesSelector({usernames: metadata.usernames});
     $('.controls').append(usernamesSelectorHTML);
     $("select").select2();
+    var openData = {
+      action: "showNewOpen",
+      url: "",
+      data: metadata.newOpen,
+      info: "New issues in the past 24h"
+    }
+    var openStatusHTML = ich.status(openData);
+    $('header').append(openStatusHTML);
+    var closedData = {
+      action: "showNewClosed",
+      url: "",
+      data: metadata.newClosed,
+      info: "Closed issues in the past 24h"
+    }
+    var closedtatusHTML = ich.status(closedData);
+    $('header').append(closedtatusHTML);
   }
 
   // Render the whole thing
@@ -342,6 +370,18 @@ $(function() {
     }
     $('.summary').text(length);
   }
+
+  /*
+  function getGittip(){
+    var hash = window.location.hash;
+    if(!hash || hash === "") return;
+    $.get('https://cors-io.herokuapp.com/www.gittip.com/'+hash, function(data){
+      data = data.replace(/img/g, 'span')
+      var html = $('.total-receiving', $.parseHTML(data)).text();
+      console.log('total: '+html)
+    });
+  }
+  */
 
   // 3
   // …
