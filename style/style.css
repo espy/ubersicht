@@ -27,13 +27,19 @@ header>.info {
   vertical-align: top;
 }
 
+.statusIndicators {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .statusDisplay {
   width: 100px;
   height: auto;
   color: white;
   display: inline-block;
   margin: 10px;
-  float: right;
 }
 
 .statusDisplay a{
@@ -346,6 +352,25 @@ h6 a:hover {
   color: #eee;
   font-size: .8em;
   text-align: center;
+}
+
+@media (max-width: 640px) {
+  header {
+    border-bottom: none;
+    height: auto;
+  }
+  header h6{
+    border-bottom: 1px solid #eee;
+  }
+  header>.info {
+    width: 100%;
+  }
+  .statusIndicators {
+    border-bottom: 1px solid #eee;
+    position: relative;
+    top: auto;
+    right: auto;
+  }
 }
 
 @media (max-width: 480px) {

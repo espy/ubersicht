@@ -395,7 +395,7 @@ $(function() {
       info: "New issues in the past 24h"
     }
     var openStatusHTML = ich.status(openData);
-    $('header').append(openStatusHTML);
+    $('.statusIndicators').append(openStatusHTML);
     var closedData = {
       action: "showNewClosed",
       url: "#",
@@ -403,7 +403,7 @@ $(function() {
       info: "Closed issues in the past 24h"
     }
     var closedStatusHTML = ich.status(closedData);
-    $('header').append(closedStatusHTML);
+    $('.statusIndicators').append(closedStatusHTML);
   }
 
   // Render the whole thing
