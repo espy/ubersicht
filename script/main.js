@@ -23,11 +23,7 @@ $(function() {
   // The github user or organisation you'd like to load issues for
   // Defaults to hoodiehq!
   var githubOrganisation = 'hoodiehq';
-  if(window.location.hash != ""){
-    githubOrganisation = window.location.hash.substr(1);
-  } else {
-    window.location.hash = githubOrganisation;
-  }
+  useHash()
   // labelForNewCommitters is what you label simple issues for new committers with
   // Will expose a new button "show issues for new committers" if not empty
   var labelForNewCommitters = 'starter';
@@ -42,6 +38,16 @@ $(function() {
     milestones: [],
     usernames: []
   };
+  var applyFiltersDebounced = _.debounce(applyFilters, 300);
+
+  // Fetch the hash value from the url
+  function useHash(){
+    if(window.location.hash != ""){
+      githubOrganisation = window.location.hash.substr(1);
+    } else {
+      window.location.hash = githubOrganisation;
+    }
+  }
 
   // Show loading message in header
   $('h1.title').append(' is loading github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
@@ -64,24 +70,66 @@ $(function() {
 
   // Events
 
+  // Check if browser supports the hash change event
+  if ("onhashchange" in window) {
+    window.onhashchange = locationHashChanged;
+  }
+
+  // Avoids having to akwardly mash enter twice
+  function locationHashChanged() {
+    window.location.reload();
+  }
+
   // Whatever changes in .controls: filter all the things!
-  $('.controls').change(applyFilters);
+  $('.controls').change(applyFiltersDebounced);
 
-  $('select').on('change', applyFilters);
+  $('select').on('change', applyFiltersDebounced);
 
-  $('input').on('ifChanged', applyFilters);
+  $('input').on('ifChanged', applyFiltersDebounced);
 
   // A helper to only show open issues with a label meant for new committers.
   // You can set this `labelForNewCommitters` yourself at the top of this file.
+  // This is the reason applyFilters is debounced, by the way.
   $('.showStarter').click(function(event){
     event.preventDefault();
     $('#showOpen').iCheck('check');
     $('#showClosed').iCheck('uncheck');
+    $('#showCommented').iCheck('check');
+    $('#showUncommented').iCheck('check');
+    $('#last24Hours').iCheck('uncheck');
     $("#repos").val("").trigger("change");
     $("#labels").val(labelForNewCommitters).trigger("change");
     $("#milestones").val("").trigger("change");
     $("#usernames").val("").trigger("change");
-  })
+  });
+
+  // A helper to only show closed issues from the last 24 hours.
+  $('header').on('click', '.showNewClosed a', function(event){
+    event.preventDefault();
+    $('#showOpen').iCheck('uncheck');
+    $('#showClosed').iCheck('check');
+    $('#showCommented').iCheck('check');
+    $('#showUncommented').iCheck('check');
+    $('#last24Hours').iCheck('check');
+    $("#repos").val("").trigger("change");
+    $("#labels").val("").trigger("change");
+    $("#milestones").val("").trigger("change");
+    $("#usernames").val("").trigger("change");
+  });
+
+  // A helper to only show new issues from the last 24 hours.
+  $('header').on('click', '.showNewOpen a', function(event){
+    event.preventDefault();
+    $('#showOpen').iCheck('check');
+    $('#showClosed').iCheck('uncheck');
+    $('#showCommented').iCheck('check');
+    $('#showUncommented').iCheck('check');
+    $('#last24Hours').iCheck('check');
+    $("#repos").val("").trigger("change");
+    $("#labels").val("").trigger("change");
+    $("#milestones").val("").trigger("change");
+    $("#usernames").val("").trigger("change");
+  });
 
   // Fetch the organisation's issues with a single search request.
   // This is rate-limited to 5 requests per minute, which should be enough.
@@ -98,7 +146,7 @@ $(function() {
     }
 
     // Cache for quick development
-    // return $.getJSON('./script/cache.json');
+    //return $.getJSON('./script/cache.json');
 
     // The real request
     return $.ajax({
@@ -170,16 +218,16 @@ $(function() {
     var yesterday = new Date();
     var dayOfMonth = yesterday.getDate();
     yesterday.setDate(dayOfMonth - 1);
-    var yesterdayISO = yesterday.toISOString();
+    metadata.yesterdayISO = yesterday.toISOString();
     issues.forEach(function(issue){
       // Count how many open and closed issues we loaded
       if(issue.state === 'open'){
-        if(issue.created_at > yesterdayISO){
+        if(issue.created_at > metadata.yesterdayISO){
           metadata.newOpen++;
         }
         metadata.open++;
       } else {
-        if(issue.closed_at > yesterdayISO){
+        if(issue.closed_at > metadata.yesterdayISO){
           metadata.newClosed++;
         }
         metadata.closed++;
@@ -263,6 +311,7 @@ $(function() {
     var showOpen = $('#showOpen').is(':checked');
     var showCommented = $('#showCommented').is(':checked');
     var showUncommented = $('#showUncommented').is(':checked');
+    var onlyLast24Hours = $('#last24Hours').is(':checked');
 
     // Do the actual filtering
     $('.issues > li').each(function(){
@@ -283,6 +332,15 @@ $(function() {
       // Show uncommented
       if($this.find('.comments').length === 0 && !showUncommented){
         hide++;
+      }
+      // Show created in last 24 hours
+      if(onlyLast24Hours){
+        if($this.hasClass('closed') && $this.data('closedat') < metadata.yesterdayISO){
+          hide++
+        }
+        if($this.hasClass('open') && $this.data('createdat') < metadata.yesterdayISO){
+          hide++
+        }
       }
       // Filter by repos
       if(repos && repos.indexOf($this.attr('data-repo')) === -1){
@@ -327,7 +385,7 @@ $(function() {
     $("select").select2();
     var openData = {
       action: "showNewOpen",
-      url: "",
+      url: "#",
       data: metadata.newOpen,
       info: "New issues in the past 24h"
     }
@@ -335,19 +393,17 @@ $(function() {
     $('header').append(openStatusHTML);
     var closedData = {
       action: "showNewClosed",
-      url: "",
+      url: "#",
       data: metadata.newClosed,
       info: "Closed issues in the past 24h"
     }
-    var closedtatusHTML = ich.status(closedData);
-    $('header').append(closedtatusHTML);
+    var closedStatusHTML = ich.status(closedData);
+    $('header').append(closedStatusHTML);
   }
 
   // Render the whole thing
   function render (issues) {
-
     $('h1.title').replaceWith('<h1 class="title"><strong>Ubersicht</strong> github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a></h1>');
-
     $('.checkboxes').removeClass('hide');
     var issueHTML = ich.issues({issues: issues});
     $(document.body).append(issueHTML);
@@ -359,7 +415,7 @@ $(function() {
     var length = $('.issues > li:visible').length;
     switch(length){
       case 0:
-      length = "No issues";
+      length = "Sorry, there aren't any issues for these filter settings :/";
       break;
       case 1:
       length = "1 issue";

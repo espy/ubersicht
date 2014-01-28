@@ -44,6 +44,10 @@
         <li>
           <a href="#" class="showStarter">Show issues for new committers</a>
         </li>
+        <li>
+          <input type="checkbox" id="last24Hours" class="grey">
+          <label for="last24Hours">Last 24 hours only</label>
+        </li>
       </ul>
     </div>
   </div>
@@ -58,7 +62,7 @@
   </script>
 
   <script id="issue" class="partial" type="text/html">
-    <li class="{{state}}" data-repo="{{repo_name}}" data-username="{{user.login}}" data-assignee="{{assignee.login}}">
+    <li class="{{state}}" data-repo="{{repo_name}}" data-username="{{user.login}}" data-assignee="{{assignee.login}}" data-updatedat="{{updated_at}}" data-createdat="{{created_at}}" data-closedat="{{closed_at}}">
       <div class="authorPlaceholder">
         <a class="author" href="{{user.html_url}}" title="Opened by {{user.login}}"><img src="{{user.avatar_url}}" alt=""></a>
       </div>

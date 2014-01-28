@@ -106,6 +106,7 @@ header>.info {
   color: white;
   border-radius: 6px;
   text-transform: uppercase;
+  line-height: 1.5em;
 }
 
 .controls .showStarter:hover{
