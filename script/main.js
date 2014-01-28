@@ -178,6 +178,11 @@ $(function() {
     return validIssues;
   }
 
+  // The github search occasionally returns issues in the wrong order, so we fix that
+  function sortIssuesByDate(issues){
+    return _.sortBy(issues, function(issue){ return issue.updated_at; }).reverse();
+  }
+
   // Some things aren't included in the JSON form the search query,
   // so we modify each issue to contain the missing data
   function addRepoInformation(issues){
@@ -449,6 +454,7 @@ $(function() {
   getIssues({state: 'open'})
   .then(mapDataItems)
   .then(removeDuplicates)
+  .then(sortIssuesByDate)
   .then(addRepoInformation)
   .then(getMetadata)
   .then(render);
