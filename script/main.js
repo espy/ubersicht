@@ -300,6 +300,19 @@ $(function() {
       }
     });
 
+    function sortLists(list, compare) {
+      list.sort(function(a, b) {
+        if(a[compare] === b[compare]) {
+          return 0;
+        }
+        return a[compare] > b[compare] ? 1 : -1;
+      });
+    };
+    sortLists(metadata.labels, 'name');
+    sortLists(metadata.usernames, 'username');
+    sortLists(metadata.milestones, 'name');
+    sortLists(metadata.repos, 'name');
+
     updateControls();
 
     return issues;
