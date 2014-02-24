@@ -385,6 +385,24 @@ $(function() {
       }
     });
 
+    // update URL
+    var loc = window.location;
+    var baseUrl = [loc.protocol, '//', loc.host, loc.pathname].join('') ;
+    var qs = [
+      'showOpen=' + showOpen,
+      'showClosed=' + showClosed,
+      'showCommented=' + showCommented,
+      'showUncommented=' + showUncommented,
+      'last24Hours=' + onlyLast24Hours,
+      'repos=' + repos,
+      'labels=' + labels,
+      'milestones=' + milestones,
+      'usernames=' + usernames
+    ].join('&');
+
+    var newUrl = baseUrl + '?' + qs + loc.hash;
+    history.pushState(null, null, newUrl);
+
     updateSummary();
   }
 
@@ -445,6 +463,63 @@ $(function() {
     $('.summary').text(length);
   }
 
+ // populate filters
+  function parseURLFilters () {
+    var qss = window.location.search.substr(1).replace(/\/$/, '');
+    if(qss.length == 0) {
+      return {
+        showOpen: true,
+        showClosed: true,
+        showCommented: true,
+        showUncommented: true,
+        repos: '',
+        labels: '',
+        milestones: '',
+        usernames: '',
+        last24Hours: false
+      };
+    }
+    var qsPairs = qss.split('&');
+    var qs = {};
+    qsPairs.forEach(function(pair) {
+      var qsPair = pair.split('=');
+      var key = qsPair[0];
+      var value = qsPair[1];
+      qs[key] = value;
+    });
+    return qs;
+  }
+
+  function applyUrlFilters () {
+    var urlFilters = parseURLFilters();
+
+    var checkboxes = [
+      'showOpen',
+      'showClosed',
+      'last24Hours',
+      'showStarter',
+      'showCommented',
+      'showUncommented'
+    ];
+
+    var selectboxes = [
+      'repos',
+      'labels',
+      'usernames',
+      'milestones'
+    ];
+
+    checkboxes.forEach(function(checkbox) {
+      $('#' + checkbox).iCheck(urlFilters[checkbox] === 'true'?'check':'uncheck');
+    });
+
+    selectboxes.forEach(function(selectbox) {
+      $('#' + selectbox).select2('val', urlFilters[selectbox].split(','));
+    });
+
+    applyFilters();
+  }
+
   /*
   function getGittip(){
     var hash = window.location.hash;
@@ -470,5 +545,6 @@ $(function() {
   .then(sortIssuesByDate)
   .then(addRepoInformation)
   .then(getMetadata)
-  .then(render);
+  .then(render)
+  .then(applyUrlFilters)
 });
