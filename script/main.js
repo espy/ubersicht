@@ -468,10 +468,10 @@ $(function() {
     var qss = window.location.search.substr(1).replace(/\/$/, '');
     if(qss.length == 0) {
       return {
-        showOpen: true,
-        showClosed: true,
-        showCommented: true,
-        showUncommented: true,
+        showOpen: 'true',
+        showClosed: 'true',
+        showCommented: 'true',
+        showUncommented: 'true',
         repos: '',
         labels: '',
         milestones: '',
