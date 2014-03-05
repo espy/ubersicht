@@ -443,7 +443,7 @@ $(function() {
       action: "showNewClosed",
       url: "#",
       data: metadata.closedLastWeek,
-      info: "Closed issues in the last week"
+      info: "Issues done the last week"
     }
     // add daily totals - if they are not zero
     var closedStatusHTML = ich.status(closedData);
@@ -463,7 +463,7 @@ $(function() {
         action: "showNewClosed",
         url: "#",
         data: metadata.newClosed,
-        info: "Closed issues in the past 24h"
+        info: "Issues done in the past 24h"
       }
       closedStatusHTML = ich.status(closedData);
       $('.statusIndicators').append(closedStatusHTML);
