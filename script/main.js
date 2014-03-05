@@ -32,6 +32,8 @@ $(function() {
     open: 0,
     closed: 0,
     newOpen: 0,
+    openedLastWeek: 0,
+    closedLastWeek: 0,
     newClosed: 0,
     repos: [],
     labels: [],
@@ -221,19 +223,28 @@ $(function() {
   // Crawl the issues for some metadata we need for the filters
   function getMetadata (issues) {
     var yesterday = new Date();
-    var dayOfMonth = yesterday.getDate();
-    yesterday.setDate(dayOfMonth - 1);
+    var today = yesterday.getDate();
+    yesterday.setDate(today - 1);
     metadata.yesterdayISO = yesterday.toISOString();
+    var oneWeekAgo = new Date();
+    oneWeekAgo.setDate(today - 7);
+    metadata.AWeekAgoISO =  oneWeekAgo.toISOString();
     issues.forEach(function(issue){
       // Count how many open and closed issues we loaded
       if(issue.state === 'open'){
         if(issue.created_at > metadata.yesterdayISO){
           metadata.newOpen++;
         }
+        if(issue.created_at > metadata.AWeekAgoISO){
+          metadata.openedLastWeek++;
+        }
         metadata.open++;
       } else {
         if(issue.closed_at > metadata.yesterdayISO){
           metadata.newClosed++;
+        }
+        if(issue.closed_at > metadata.AWeekAgoISO){
+          metadata.closedLastWeek++;
         }
         metadata.closed++;
       }
@@ -419,22 +430,44 @@ $(function() {
     var usernamesSelectorHTML = ich.usernamesSelector({usernames: metadata.usernames});
     $('.controls').append(usernamesSelectorHTML);
     $("select").select2();
+    // add weekle total
     var openData = {
       action: "showNewOpen",
       url: "#",
-      data: metadata.newOpen,
-      info: "New issues in the past 24h"
+      data: metadata.openedLastWeek,
+      info: "New issues in the last week"
     }
     var openStatusHTML = ich.status(openData);
     $('.statusIndicators').append(openStatusHTML);
     var closedData = {
       action: "showNewClosed",
       url: "#",
-      data: metadata.newClosed,
-      info: "Closed issues in the past 24h"
+      data: metadata.closedLastWeek,
+      info: "Closed issues in the last week"
     }
+    // add daily totals - if they are not zero
     var closedStatusHTML = ich.status(closedData);
     $('.statusIndicators').append(closedStatusHTML);
+    if (metadata.newOpen > 0) {
+      openData = {
+        action: "showNewOpen",
+        url: "#",
+        data: metadata.newOpen,
+        info: "New issues in the past 24h"
+      }
+      openStatusHTML = ich.status(openData);
+      $('.statusIndicators').append(openStatusHTML);
+    }
+    if (metadata.newClosed > 0) {
+      closedData = {
+        action: "showNewClosed",
+        url: "#",
+        data: metadata.newClosed,
+        info: "Closed issues in the past 24h"
+      }
+      closedStatusHTML = ich.status(closedData);
+      $('.statusIndicators').append(closedStatusHTML);
+    }
   }
 
   // Render the whole thing
