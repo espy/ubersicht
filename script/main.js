@@ -22,7 +22,7 @@
 $(function() {
   // The github user or organisation you'd like to load issues for
   // Defaults to hoodiehq!
-  var githubOrganisation = 'hoodiehq';
+  var githubOrganisation = 'hasadna';
   useHash()
   // labelForNewCommitters is what you label simple issues for new committers with
   // Will expose a new button "show issues for new committers" if not empty
