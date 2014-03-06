@@ -19,14 +19,36 @@
  *
  */
 
-$(function() {
-  // The github user or organisation you'd like to load issues for
-  // Defaults to hoodiehq!
-  var githubOrganisation = 'hoodiehq';
-  useHash()
-  // labelForNewCommitters is what you label simple issues for new committers with
+$(function () {
+
+  // Some config options for forked instances
+
+  // Which organisation's issues you'd like to display
+  var defaultGithubOrganisation = 'hoodiehq';
+
+  // labelForNewCommitters is the label you use for simple issues that are suitable
+  // for new committers.
   // Will expose a new button "show issues for new committers" if not empty
   var labelForNewCommitters = 'starter';
+
+  // Startup
+
+  var githubOrganisation;
+  // If ubersicht is running as a github-page, we can use the subdomain as
+  // the default organisation
+  if(window.location.host.indexOf('github.io') !== -1){
+    githubOrganisation = window.location.host.replace('github.io', '');
+    // If it's at espy.github.io, set to hoodieHQ, since that has more
+    // repos and issues and is a better example
+    if(githubOrganisation === 'espy'){
+      githubOrganisation = 'hoodiehq';
+    }
+  }
+  // If none of the above apply, set to default github organisation
+  if(!githubOrganisation){
+    githubOrganisation = defaultGithubOrganisation;
+  }
+  useHash();
   // Place to store metadata about all the loaded issues
   window.metadata = {
     open: 0,
