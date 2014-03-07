@@ -561,7 +561,7 @@ $(function () {
   // 1
   // …
   // GO!
-  getIssues({state: 'open'})
+  getIssues()
   .then(mapDataItems)
   .then(removeDuplicates)
   .then(sortIssuesByDate)
