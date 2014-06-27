@@ -153,10 +153,18 @@ $(function () {
     $("#usernames").val("").trigger("change");
   });
 
+  function flatten(input) {
+    return input.reduce(function(a, b) {
+      return a.concat(b);
+    });
+  }
+
   // Fetch the organisation's issues with a single search request.
   // This is rate-limited to 5 requests per minute, which should be enough.
-  function getIssues(filters){
-    var query = 'per_page=100&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
+  function getIssues(page){
+    var filters = { state: 'open' };
+    var page = page || 1;
+    var query = 'per_page=100&page=' + page + '&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
 
     if(filters){
       if (filters.label) {
@@ -177,8 +185,31 @@ $(function () {
     });
   }
 
-  function mapDataItems (data) {
-    return data.items;
+
+  function maybeGetMoreIssues(data){
+    if(data.total_count <= 100) {
+      // nothing to do
+      return mapDataItems(data);
+    }
+    var pages = Math.ceil(data.total_count / 100);
+    var calls = [];
+
+    // start at 2 because we already have page 1
+    for(var page = 2; page <= pages; page++) {
+      calls.push(getIssues(page));
+    }
+
+    return $.when.apply(this, calls).then(function() {
+      var results = Array.prototype.slice.call(arguments);
+      results.unshift(data);
+      results = results.map(mapDataItems);
+      var flatsults = flatten(results);
+      return flatsults;
+    });
+  }
+
+  function mapDataItems (data){
+    return data.items || data[0].items;
   }
 
   // The github search occasionally returns duplicates, this filters them out
@@ -562,7 +593,7 @@ $(function () {
   // …
   // GO!
   getIssues()
-  .then(mapDataItems)
+  .then(maybeGetMoreIssues)
   .then(removeDuplicates)
   .then(sortIssuesByDate)
   .then(addRepoInformation)
