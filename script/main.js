@@ -54,6 +54,8 @@ $(function () {
     open: 0,
     closed: 0,
     newOpen: 0,
+    openedLastWeek: 0,
+    closedLastWeek: 0,
     newClosed: 0,
     repos: [],
     labels: [],
@@ -133,6 +135,22 @@ $(function () {
     $('#showCommented').iCheck('check');
     $('#showUncommented').iCheck('check');
     $('#last24Hours').iCheck('check');
+    $('#lastWeek').iCheck('uncheck');
+    $("#repos").val("").trigger("change");
+    $("#labels").val("").trigger("change");
+    $("#milestones").val("").trigger("change");
+    $("#usernames").val("").trigger("change");
+  });
+
+  // A helper to only show closed issues from the last week
+  $('header').on('click', '.showClosedLastWeek a', function(event){
+    event.preventDefault();
+    $('#showOpen').iCheck('uncheck');
+    $('#showClosed').iCheck('check');
+    $('#showCommented').iCheck('check');
+    $('#showUncommented').iCheck('check');
+    $('#last24Hours').iCheck('uncheck');
+    $('#lastWeek').iCheck('check');
     $("#repos").val("").trigger("change");
     $("#labels").val("").trigger("change");
     $("#milestones").val("").trigger("change");
@@ -147,6 +165,22 @@ $(function () {
     $('#showCommented').iCheck('check');
     $('#showUncommented').iCheck('check');
     $('#last24Hours').iCheck('check');
+    $('#lastWeek').iCheck('uncheck');
+    $("#repos").val("").trigger("change");
+    $("#labels").val("").trigger("change");
+    $("#milestones").val("").trigger("change");
+    $("#usernames").val("").trigger("change");
+  });
+
+  // A helper to only show new issues from the last 24 hours.
+  $('header').on('click', '.showOpenedLastWeek a', function(event){
+    event.preventDefault();
+    $('#showOpen').iCheck('check');
+    $('#showClosed').iCheck('uncheck');
+    $('#showCommented').iCheck('check');
+    $('#showUncommented').iCheck('check');
+    $('#last24Hours').iCheck('uncheck');
+    $('#lastWeek').iCheck('check');
     $("#repos").val("").trigger("change");
     $("#labels").val("").trigger("change");
     $("#milestones").val("").trigger("change");
@@ -274,19 +308,28 @@ $(function () {
   // Crawl the issues for some metadata we need for the filters
   function getMetadata (issues) {
     var yesterday = new Date();
-    var dayOfMonth = yesterday.getDate();
-    yesterday.setDate(dayOfMonth - 1);
+    var today = yesterday.getDate();
+    yesterday.setDate(today - 1);
     metadata.yesterdayISO = yesterday.toISOString();
+    var oneWeekAgo = new Date();
+    oneWeekAgo.setDate(today - 7);
+    metadata.aWeekAgoISO =  oneWeekAgo.toISOString();
     issues.forEach(function(issue){
       // Count how many open and closed issues we loaded
       if(issue.state === 'open'){
         if(issue.created_at > metadata.yesterdayISO){
           metadata.newOpen++;
         }
+        if(issue.created_at > metadata.aWeekAgoISO){
+          metadata.openedLastWeek++;
+        }
         metadata.open++;
       } else {
         if(issue.closed_at > metadata.yesterdayISO){
           metadata.newClosed++;
+        }
+        if(issue.closed_at > metadata.aWeekAgoISO){
+          metadata.closedLastWeek++;
         }
         metadata.closed++;
       }
@@ -383,6 +426,7 @@ $(function () {
     var showCommented = $('#showCommented').is(':checked');
     var showUncommented = $('#showUncommented').is(':checked');
     var onlyLast24Hours = $('#last24Hours').is(':checked');
+    var onlyLastWeek = $('#lastWeek').is(':checked');
 
     // Do the actual filtering
     $('.issues > li').each(function(){
@@ -404,12 +448,21 @@ $(function () {
       if($this.find('.comments').length === 0 && !showUncommented){
         hide++;
       }
-      // Show created in last 24 hours
+      // Show issues from last 24 hours
       if(onlyLast24Hours){
         if($this.hasClass('closed') && $this.data('closedat') < metadata.yesterdayISO){
           hide++
         }
         if($this.hasClass('open') && $this.data('createdat') < metadata.yesterdayISO){
+          hide++
+        }
+      }
+      // Show created in last 24 hours
+      if(onlyLastWeek){
+        if($this.hasClass('closed') && $this.data('closedat') < metadata.aWeekAgoISO){
+          hide++
+        }
+        if($this.hasClass('open') && $this.data('createdat') < metadata.aWeekAgoISO){
           hide++
         }
       }
@@ -447,6 +500,7 @@ $(function () {
       'showCommented=' + showCommented,
       'showUncommented=' + showUncommented,
       'last24Hours=' + onlyLast24Hours,
+      'lastWeek=' + onlyLastWeek,
       'repos=' + repos,
       'labels=' + labels,
       'milestones=' + milestones,
@@ -472,22 +526,44 @@ $(function () {
     var usernamesSelectorHTML = ich.usernamesSelector({usernames: metadata.usernames});
     $('.controls').append(usernamesSelectorHTML);
     $("select").select2();
+    // add weekle total
     var openData = {
-      action: "showNewOpen",
+      action: "showOpenedLastWeek",
       url: "#",
-      data: metadata.newOpen,
-      info: "New issues in the past 24h"
+      data: metadata.openedLastWeek,
+      info: "New issues in the last week"
     }
     var openStatusHTML = ich.status(openData);
     $('.statusIndicators').append(openStatusHTML);
     var closedData = {
-      action: "showNewClosed",
+      action: "showClosedLastWeek",
       url: "#",
-      data: metadata.newClosed,
-      info: "Closed issues in the past 24h"
+      data: metadata.closedLastWeek,
+      info: "Issues done the last week"
     }
+    // add daily totals - if they are not zero
     var closedStatusHTML = ich.status(closedData);
     $('.statusIndicators').append(closedStatusHTML);
+    if (metadata.newOpen > 0) {
+      openData = {
+        action: "showNewOpen",
+        url: "#",
+        data: metadata.newOpen,
+        info: "New issues in the past 24h"
+      }
+      openStatusHTML = ich.status(openData);
+      $('.statusIndicators').append(openStatusHTML);
+    }
+    if (metadata.newClosed > 0) {
+      closedData = {
+        action: "showNewClosed",
+        url: "#",
+        data: metadata.newClosed,
+        info: "Issues done in the past 24h"
+      }
+      closedStatusHTML = ich.status(closedData);
+      $('.statusIndicators').append(closedStatusHTML);
+    }
   }
 
   // Render the whole thing

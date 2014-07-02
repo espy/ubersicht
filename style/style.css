@@ -362,7 +362,7 @@ h6 a:hover {
   text-align: center;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 860px) {
   header {
     border-bottom: none;
     height: auto;
