@@ -162,18 +162,8 @@ $(function () {
   // Fetch the organisation's issues with a single search request.
   // This is rate-limited to 5 requests per minute, which should be enough.
   function getIssues(page){
-    var filters = { state: 'open' };
     var page = page || 1;
     var query = 'per_page=100&page=' + page + '&sort=updated&q=user:' + encodeURIComponent(githubOrganisation);
-
-    if(filters){
-      if (filters.label) {
-        query += '+label:' + filters.label;
-      }
-      if (filters.state) {
-        query += '+state:' + filters.state;
-      }
-    }
 
     // Cache for quick development
     //return $.getJSON('./script/cache.json');
