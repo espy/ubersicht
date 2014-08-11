@@ -262,6 +262,7 @@ $(function () {
         if(issue.milestone){
           issue.milestone.html_url = issue.milestone.url.replace('api.', '').replace('repos/', '').replace('milestones/', 'issues?milestone=');
         }
+        issue.is_pull_request = issue.pull_request && issue.pull_request.html_url;
       } else {
         // If it's a duplicate, remove it
         issue = undefined;

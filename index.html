@@ -63,7 +63,7 @@
   </script>
 
   <script id="issue" class="partial" type="text/html">
-    <li class="{{state}}" data-repo="{{repo_name}}" data-username="{{user.login}}" data-assignee="{{assignee.login}}" data-updatedat="{{updated_at}}" data-createdat="{{created_at}}" data-closedat="{{closed_at}}">
+    <li class="{{state}} {{#is_pull_request}}pull-request{{/is_pull_request}}" data-repo="{{repo_name}}" data-username="{{user.login}}" data-assignee="{{assignee.login}}" data-updatedat="{{updated_at}}" data-createdat="{{created_at}}" data-closedat="{{closed_at}}">
       <div class="authorPlaceholder">
         <a class="author" href="{{user.html_url}}" title="Opened by {{user.login}}"><img src="{{user.avatar_url}}" alt=""></a>
       </div>
