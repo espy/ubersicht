@@ -318,26 +318,31 @@ h6 a:hover {
   text-transform: uppercase;
 }
 
-.issues > .open{
-  border-left: 10px solid #EB6420;
-}
-
-.issues > .closed{
-  border-left: 10px solid #009800;
-}
-
-.issues > .pull-request{
-  border-left-width: 5px;
-}
-
-.issues > .pull-request:before {
-  border-left: 5px solid #2C2A86;
+.issues > li:before,
+.issues > li:after {
   display: block;
   position: absolute;
   height: 100%;
   content: '';
   left: 0;
   top: 0;
+}
+
+.issues > li:after {
+  left: 5px;
+  z-index: 10;
+}
+
+.issues > .open:before {
+  border-left: 10px solid #EB6420;
+}
+
+.issues > .closed:before {
+  border-left: 10px solid #009800;
+}
+
+.issues > .pull-request:after {
+  border-left: 5px solid #2C2A86;
 }
 
 .title {
