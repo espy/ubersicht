@@ -51,6 +51,7 @@ $(function () {
   useHash();
   // Place to store metadata about all the loaded issues
   window.metadata = {
+    total: 0,
     open: 0,
     closed: 0,
     newOpen: 0,
@@ -187,7 +188,12 @@ $(function () {
       // nothing to do
       return mapDataItems(data);
     }
+    metadata.total = data.total_count;
     var pages = Math.ceil(data.total_count / 100);
+    // Max 5 pages to avoid hitting the rate limit
+    if(pages > 5){
+      pages = 5;
+    }
     var calls = [];
 
     // start at 2 because we already have page 1
@@ -511,6 +517,10 @@ $(function () {
 
   function updateSummary () {
     var length = $('.issues > li:visible').length;
+    var rateLimitMessage = '';
+    if(metadata.total > length){
+      rateLimitMessage = ' (Your organisation has '+metadata.total+' total issues, but Ubersicht can only display the first 500)'
+    }
     switch(length){
       case 0:
       length = "Sorry, there aren't any issues for these filter settings :/";
@@ -522,7 +532,7 @@ $(function () {
       length = length + " issues";
       break;
     }
-    $('.summary').text(length);
+    $('.summary').text(length + rateLimitMessage);
   }
 
  // populate filters
