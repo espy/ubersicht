@@ -118,6 +118,8 @@ $(function () {
     $('#showClosed').iCheck('uncheck');
     $('#showCommented').iCheck('check');
     $('#showUncommented').iCheck('check');
+    $('#showIssues').iCheck('check');
+    $('#showPullRequests').iCheck('uncheck');
     $('#last24Hours').iCheck('uncheck');
     $("#repos").val("").trigger("change");
     $("#labels").val(labelForNewCommitters).trigger("change");
@@ -132,6 +134,8 @@ $(function () {
     $('#showClosed').iCheck('check');
     $('#showCommented').iCheck('check');
     $('#showUncommented').iCheck('check');
+    $('#showIssues').iCheck('check');
+    $('#showPullRequests').iCheck('check');
     $('#last24Hours').iCheck('check');
     $("#repos").val("").trigger("change");
     $("#labels").val("").trigger("change");
@@ -146,6 +150,8 @@ $(function () {
     $('#showClosed').iCheck('uncheck');
     $('#showCommented').iCheck('check');
     $('#showUncommented').iCheck('check');
+    $('#showIssues').iCheck('check');
+    $('#showPullRequests').iCheck('check');
     $('#last24Hours').iCheck('check');
     $("#repos").val("").trigger("change");
     $("#labels").val("").trigger("change");
@@ -373,6 +379,8 @@ $(function () {
     var showOpen = $('#showOpen').is(':checked');
     var showCommented = $('#showCommented').is(':checked');
     var showUncommented = $('#showUncommented').is(':checked');
+    var showIssues = $('#showIssues').is(':checked');
+    var showPullRequests = $('#showPullRequests').is(':checked');
     var onlyLast24Hours = $('#last24Hours').is(':checked');
 
     // Do the actual filtering
@@ -393,6 +401,14 @@ $(function () {
       }
       // Show uncommented
       if($this.find('.comments').length === 0 && !showUncommented){
+        hide++;
+      }
+      // Show issues
+      if(!$this.hasClass('pull-request') && !showIssues){
+        hide++;
+      }
+      // Show pull requests
+      if($this.hasClass('pull-request') && !showPullRequests){
         hide++;
       }
       // Show created in last 24 hours
@@ -437,6 +453,8 @@ $(function () {
       'showClosed=' + showClosed,
       'showCommented=' + showCommented,
       'showUncommented=' + showUncommented,
+      'showIssues=' + showIssues,
+      'showPullRequests=' + showPullRequests,
       'last24Hours=' + onlyLast24Hours,
       'repos=' + repos,
       'labels=' + labels,
@@ -516,6 +534,8 @@ $(function () {
         showClosed: 'true',
         showCommented: 'true',
         showUncommented: 'true',
+        showIssues: 'true',
+        showPullRequests: 'true',
         repos: '',
         labels: '',
         milestones: '',
@@ -543,7 +563,9 @@ $(function () {
       'last24Hours',
       'showStarter',
       'showCommented',
-      'showUncommented'
+      'showUncommented',
+      'showIssues',
+      'showPullRequests'
     ];
 
     var selectboxes = [
