@@ -19,6 +19,22 @@ a{
   text-decoration: none;
 }
 
+.error{
+  margin: 1em;
+  max-width: 35em;
+  line-height: 1.25rem;
+}
+
+.error h2{
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-bottom: .5em;
+}
+
+.error p{
+  margin-bottom: .5em;
+}
+
 .hide{
   display: none;
 }

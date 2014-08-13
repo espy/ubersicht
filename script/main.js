@@ -178,8 +178,47 @@ $(function () {
     // The real request
     return $.ajax({
       url: 'https://api.github.com/search/issues',
-      data: query
+      data: query,
+      error: onGetIssuesError
     });
+  }
+
+  function onGetIssuesError(data, error, type) {
+    var error = {
+      title: 'Sorry, an error occurred',
+      message: "Something went wrong while fetching data from GitHub. Here's the actual error message: "+data.status+": "+data.responseText,
+      countdown: false
+    }
+    if(data.responseText.indexOf('rate limit exceeded') != -1){
+      error.message = "Ubersicht has hit GitHub's search API rate limit. The limit is reset every 60 seconds, so Ubersicht will automatically reload as soon as it can fetch data again. You don't have to do anything! ";
+      error.countdown = true;
+      $.ajax({
+        url: 'https://api.github.com/rate_limit',
+        success: function(data){
+          var now = new Date().getTime()/1000;
+          var secondsTilRefresh = Math.ceil(data.resources.search.reset - now);
+          var reloadCountdown = new Countdown({
+            seconds: secondsTilRefresh,
+            onUpdateStatus: function(sec){
+              var countdownMessage = 'Reloading in '+sec+' seconds…';
+              if(sec === 1){
+                countdownMessage = 'Reloading in '+sec+' second…';
+              }
+              if(sec === 0){
+                countdownMessage = 'Thanks for waiting!';
+              }
+              $('.error .countdown').text(countdownMessage);
+            },
+            onCounterEnd: function(){
+              window.location.reload();
+            }
+          });
+          reloadCountdown.start();
+        }
+      });
+    }
+    var errorHTML = ich.error(error);
+    $(document.body).append(errorHTML);
   }
 
 
@@ -607,6 +646,34 @@ $(function () {
     });
   }
   */
+
+ function Countdown(options) {
+   var timer,
+   instance = this,
+   seconds = options.seconds || 10,
+   updateStatus = options.onUpdateStatus || function () {},
+   counterEnd = options.onCounterEnd || function () {};
+
+   function decrementCounter() {
+     updateStatus(seconds);
+     if (seconds === 0) {
+       counterEnd();
+       instance.stop();
+     }
+     seconds--;
+   }
+
+   this.start = function () {
+     clearInterval(timer);
+     timer = 0;
+     seconds = options.seconds;
+     timer = setInterval(decrementCounter, 1000);
+   };
+
+   this.stop = function () {
+     clearInterval(timer);
+   };
+ }
 
   // 3
   // …
