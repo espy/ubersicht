@@ -243,13 +243,16 @@ $(function () {
     return $.when.apply(this, calls).then(function() {
       var results = Array.prototype.slice.call(arguments);
       results.unshift(data);
-      results = results.map(mapDataItems);
+      results = _.compact(results.map(mapDataItems));
       var flatsults = flatten(results);
       return flatsults;
     });
   }
 
   function mapDataItems (data){
+    if(typeof data === 'string' || data.responseJSON){
+      return null;
+    }
     return data.items || data[0].items;
   }
 
