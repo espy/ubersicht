@@ -51,6 +51,24 @@ header>.info {
   vertical-align: top;
 }
 
+.loader{
+  height: 22px;
+  width: auto;
+  margin: 0 0 0 5px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.loader svg{
+  width: 22px;
+  height: 22px;
+}
+
+svg path,
+svg rect{
+  fill: #EB6420;
+}
+
 .statusIndicators {
   display: block;
   position: absolute;

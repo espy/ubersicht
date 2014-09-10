@@ -73,7 +73,7 @@ $(function () {
   }
 
   // Show loading message in header
-  $('h1.title').append(' is loading github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
+  $('h1.title .titleMessage').append(' is loading github  / <a href="https://github.com/'+githubOrganisation+'">'+githubOrganisation+'</a>');
 
   // Icheck is a little umständlich here
   $('input.orange').iCheck({
