@@ -6,12 +6,6 @@ body {
   font-family: "Helvetica";
   overflow-y: scroll;
   color: #444;
-
-  /* hoodie hoodie hoodie! */
-  padding-top: 5px;
-  background-image: linear-gradient(90deg, #2C2A86 20.5%, #078D2D 20.5%, #078D2D 37.5%, #FCB20D 37.5%, #FCB20D 55.5%, #EC5100 55.5%, #EC5100 72.5%, #6A3C06 72.5%, #6A3C06 79.5%, #C01C1B 79.5%);
-  background-size: 300px 5px;
-  background-repeat: repeat-x;
 }
 
 a{
@@ -39,10 +33,30 @@ a{
   display: none;
 }
 
+.flash-message{
+  padding: 1em;
+  line-height: 1.25;
+}
+
+.flash-message strong{
+  font-weight: bold;
+}
+
+.flash-message a{
+  color: #2C2A86;
+  border-bottom: 2px solid currentColor;
+  font-weight: bold;
+}
+
 header {
   border-bottom: 1px solid #eee;
-  height: 120px;
+  height: 140px;
   position: relative;
+  /* hoodie hoodie hoodie! */
+  padding-top: 5px;
+  background-image: linear-gradient(90deg, #2C2A86 20.5%, #078D2D 20.5%, #078D2D 37.5%, #FCB20D 37.5%, #FCB20D 55.5%, #EC5100 55.5%, #EC5100 72.5%, #6A3C06 72.5%, #6A3C06 79.5%, #C01C1B 79.5%);
+  background-size: 300px 5px;
+  background-repeat: repeat-x;
 }
 
 header>.info {
@@ -72,7 +86,7 @@ svg rect{
 .statusIndicators {
   display: block;
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 0;
 }
 
